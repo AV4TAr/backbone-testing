@@ -30,14 +30,17 @@
                 App.start();
             });
         </script>
+        
+        <script type="text/css">
+            
+            
+        </script>
 
 
         <script id='imageTemplate' type='text/html'>
-            <li>
-                <a href='javascript: void(0)' class="thumbnail">
-                    <img height='110px' src='http://flickholdr.com/110/110/<%=model.term%>/<%=model.offset%>' width='110px' />
-                </a>
-            </li>
+            <a href='javascript: void(0)' class="thumbnail">
+                <img height='110px' src='http://flickholdr.com/110/110/<%=model.term%>/<%=model.offset%>' width='110px' />
+            </a>
         </script>
 
 </head>
@@ -69,9 +72,12 @@
                 </h1>
             </div>
         </section>
-        <section id="favs">
+        
+        <section id="favorites">
             <h1>My Favs</h1>
             <p>No favorites yet? Man, you're picky!</p>
+            <ul class="thumbnails"> 
+            </ul>
         </section>
 
         <section id="search-section">
