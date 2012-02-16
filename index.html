@@ -25,46 +25,85 @@
 
         <script type="text/javascript" src="js/application.js"></script>
 
-    </head>
+        <script type="text/javascript">
+            $(function(){
+                App.start();
+            });
+        </script>
 
-    <body>
 
-        <div class="navbar navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container">
-                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </a>
-                    <a class="brand" href="#">Search me</a>
+        <script id='imageTemplate' type='text/html'>
+            <li>
+                <a href='javascript: void(0)' class="thumbnail">
+                    <img height='110px' src='http://flickholdr.com/110/110/<%=model.term%>/<%=model.offset%>' width='110px' />
+                </a>
+            </li>
+        </script>
 
-                </div>
+</head>
+
+<body>
+
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="#">backbone.js trainig</a>
+
             </div>
         </div>
+    </div>
 
-        <div class="container">
+    <div class="container">
+        <section id="title">
+            <div class="page-header">
+                <h1>
+                    <a href="index.html">
+                    backbone.js
+                    </a>
+                    <small>booooooo.</small>
+                </h1>
+            </div>
+        </section>
+        <section id="favs">
+            <h1>My Favs</h1>
+            <p>No favorites yet? Man, you're picky!</p>
+        </section>
 
-            <h1>Search</h1>
+        <section id="search-section">
+
             <div class="row">
                 <div class="span12">
-                    <form>
-                        <div class="control-group">
-                            <div class="controls">
-                                <div class="input-prepend">
-                                    <span class="add-on">
-                                        <i class="icon-search"></i>
-                                    </span>
-                                    <input id="search-box" class="span10" type="text">
-                                </div>
+
+                    <div class="control-group">
+                        <div class="controls">
+                            <div class="input-prepend">
+                                <span class="add-on">
+                                    <i class="icon-search"></i>
+                                </span>
+                                <input id="search" class="span10" type="text">
                             </div>
                         </div>
+                    </div>
 
-                    </form>
+
                 </div>
             </div>
-        </div> <!-- /container -->
+        </section>
 
+        <section id="search-results">
+            <h1>Search Results</h1>
+            <ul class="thumbnails"> 
+            </ul>
+        </section>
 
-    </body>
+        <section id="footer">
+
+        </section>
+    </div> <!-- /container -->
+</body>
 </html>
