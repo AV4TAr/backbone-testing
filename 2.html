@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Backbone test 1</title>
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+        <!--[if lt IE 9]>
+          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+        <link href="css/bootstrap.css" rel="stylesheet" />
+        <style>
+            body {
+                padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+            }
+        </style>
+
+        <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+
+        <script type="text/javascript" src="js/underscore-min.js"></script>
+        <script type="text/javascript" src="js/backbone-min.js"></script>
+
+        <script type="text/javascript" src="js/2_application.js"></script>
+
+        <script type="text/javascript">
+            $(function(){
+                App.start();
+            });
+        </script>
+
+
+        <script id='personListRecord' type='text/html'>
+        <li>
+            <a href='javascript: void(0)' data-person-id="">
+                <%=model.firstName%> <%=model.lastName%>
+            </a>
+            <span class="label view">view</span> <span class="label label-important remove">delete</span>
+        </li>
+        </script>
+
+</head>
+
+<body>
+
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="#">backbone.js trainig</a>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <section id="title">
+            <div class="page-header">
+                <h1>
+                    <a href="index.html">
+                        backbone.js
+                    </a>
+                    <small>booooooo.</small>
+                </h1>
+            </div>
+        </section>
+
+
+        <section id="people-add">
+            <h1>People</h1>
+            <div class="row">
+                <div class="span6">
+                    <h3>Add</h3>
+                    <form class="form-horizontal" id="formPersona" onSubmit="return false;">
+                        <fieldset>
+                            <div class="control-group">
+                                <label class="control-label" for="input01">First Name</label>
+                                <div class="controls">
+                                    <input type="text" class="input-xlarge" id="first_name">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="input01">Last Name</label>
+                                <div class="controls">
+                                    <input type="text" class="input-xlarge" id="last_name">
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button class="btn btn-primary" type="submit">Add Person</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="span6" id="person-list">
+                    <h3>List</h3>
+                    <ul></ul>
+                </div>
+
+            </div>
+        </section>
+        <section id="footer">
+
+        </section>
+    </div> <!-- /container -->
+</body>
+</html>

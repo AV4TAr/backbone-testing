@@ -31,9 +31,7 @@ App.SearchController = {
 //Rutas de la aplicación
 App.SearchRouter = Backbone.Router.extend({
     initialize : function(){
-        new App.SearchView({
-            router: this
-        });
+        new App.SearchView({ router: this });
         new App.SearchResultsView();
         new App.FavoritesView();
     },
