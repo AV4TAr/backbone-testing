@@ -5,7 +5,13 @@ App = {
     }  
 };
 
-App.Person = Backbone.Model.extend({});
+App.Person = Backbone.Model.extend({
+    defaults: {
+        "id":'',
+        "firstName": '',
+        "lastName": '',
+    }
+});
 App.PersonCollection = Backbone.Collection.extend({
     model: App.Person
 });
@@ -66,7 +72,6 @@ App.PersonListRecordView = Backbone.View.extend({
         var html = this.template({
             model: this.model.toJSON()
             });
-        console.log(html);
         $(this.el).append(html);
     }
 })

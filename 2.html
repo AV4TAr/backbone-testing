@@ -34,10 +34,10 @@
 
         <script id='personListRecord' type='text/html'>
         <li>
-            <a href='javascript: void(0)' data-person-id="">
+            <a href='javascript: void(0)' data-person-id="<%=model.cid%>">
                 <%=model.firstName%> <%=model.lastName%>
             </a>
-            <span class="label view">view</span> <span class="label label-important remove">delete</span>
+            <span class="label edit">edit</span> <span class="label label-important remove">delete</span>
         </li>
         </script>
 
@@ -63,7 +63,7 @@
         <section id="title">
             <div class="page-header">
                 <h1>
-                    <a href="index.html">
+                    <a href="2.html">
                         backbone.js
                     </a>
                     <small>booooooo.</small>
