@@ -9,7 +9,10 @@ App.Person = Backbone.Model.extend({
     defaults: {
         "id":'',
         "firstName": '',
-        "lastName": '',
+        "lastName": ''
+    },
+    url: function(){
+        return this.id ? '/2.persons.php/' + this.id : '/2.persons.php';
     }
 });
 App.PersonCollection = Backbone.Collection.extend({
@@ -52,6 +55,7 @@ App.PersonListRecordView = Backbone.View.extend({
     
     initialize: function(){
         this.template = _.template($("#personListRecord").html());
+        App.PersonList.bind('remove', this.removeRecord, this);
         this.render();
     },
     
@@ -61,6 +65,7 @@ App.PersonListRecordView = Backbone.View.extend({
     },
     
     removeRecord: function(){
+        $(this.el).remove();
         console.log('Remove record');
     },
     
@@ -82,7 +87,9 @@ App.PersonListView = Backbone.View.extend({
         App.PersonList.bind('add', this.renderItem, this);
         
     },
-    renderItem: function(model){$(this.el).show()
+    renderItem: function(model){
+        
+        $(this.el).show()
 
         var view = new App.PersonListRecordView({
             model : model
