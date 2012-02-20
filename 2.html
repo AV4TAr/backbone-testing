@@ -33,12 +33,11 @@
 
 
         <script id='personListRecord' type='text/html'>
-        <li>
-            <a href='javascript: void(0)' data-person-id="<%=model.cid%>">
-                <%=model.firstName%> <%=model.lastName%>
-            </a>
+            <div data-person-id="<%=model.id%>">
+                
+            <%=model.firstName%> <%=model.lastName%>
             <span class="label edit">edit</span> <span class="label label-important remove">delete</span>
-        </li>
+            <div>
         </script>
 
 </head>
@@ -92,7 +91,7 @@
                                 </div>
                             </div>
                             <div class="form-actions">
-                                <button class="btn btn-primary" type="submit">Add Person</button>
+                                <button class="btn btn-primary saveRecord" type="submit">Add Person</button>
                             </div>
                         </fieldset>
                     </form>

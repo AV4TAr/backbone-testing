@@ -9,7 +9,7 @@ App.Person = Backbone.Model.extend({
     defaults: {
         "id":'',
         "firstName": '',
-        "lastName": '',
+        "lastName": ''
     }
 });
 App.PersonCollection = Backbone.Collection.extend({
@@ -28,7 +28,7 @@ App.PersonRouter = Backbone.Router.extend({
 App.PersonFormView = Backbone.View.extend({
     el: '#formPersona',
     events:{
-        'submit': 'handleSubmit'
+        'click button.saveRecord': 'handleSubmit'
     },
     initialize: function(){
         this.router = this.options.router;  //options tienen todo lo que se le pasa por parametro
@@ -40,9 +40,8 @@ App.PersonFormView = Backbone.View.extend({
         Person.set({firstName: this.$('#first_name').val(), 
                     lastName: this.$('#last_name').val()
                    });
-        
+        Person.set({id:Person.cid});
         App.PersonList.add(Person);
-        return false;
     }
 })
 
@@ -61,7 +60,11 @@ App.PersonListRecordView = Backbone.View.extend({
     },
     
     removeRecord: function(){
-        console.log('Remove record');
+        $(this.el).hide();
+        /*
+        console.log($(this.el).attr('data-person-id'))
+        console.log(this.$('').)
+        console.log('Remove record');*/
     },
     
     editRecord: function(){
@@ -80,13 +83,18 @@ App.PersonListView = Backbone.View.extend({
     el: '#person-list',
     initialize: function(){
         App.PersonList.bind('add', this.renderItem, this);
-        
+        App.PersonList.bind('remove', this.removeItem, this);
     },
-    renderItem: function(model){$(this.el).show()
+    renderItem: function(model){
+        $(this.el).show()
 
         var view = new App.PersonListRecordView({
             model : model
         })
         this.$('ul').append(view.el)
+    },
+    
+    removeItem: function(model){
+        console.log(model);
     }
 })
