@@ -15,7 +15,10 @@ App.Person = Backbone.Model.extend({
     }
 });
 App.PersonCollection = Backbone.Collection.extend({
-    model: App.Person
+    model: App.Person,
+    url: function(){
+        return '/2.persons.php';
+    }
 });
 
 App.PersonList = new App.PersonCollection();
@@ -24,6 +27,7 @@ App.PersonRouter = Backbone.Router.extend({
     initialize: function(){
         new App.PersonFormView({ router: this });
         new App.PersonListView();
+        App.PersonList.fetch();
     }
 });
 
@@ -43,6 +47,7 @@ App.PersonFormView = Backbone.View.extend({
         Person.save();
         App.PersonList.add(Person);
         this.$('input').val('');
+        this.$('#first_name').focus();  
     }
 })
 
