@@ -6,7 +6,7 @@ header('Content-type: application/json');
 require_once('mongo_connect.php');
 
 //Selecciono la coleccion
-$mongoPersons = $db->Persons;
+$mongoPersonsCollection = $db->Persons;
 $values_array = array();
 switch ($_SERVER['REQUEST_METHOD']){
     //Insert
@@ -15,9 +15,16 @@ switch ($_SERVER['REQUEST_METHOD']){
         $values_array = json_decode($values_json, true);
         
         $safe_insert = true;
-        $mongoPersons->insert($values_array, $safe_insert);
+        $mongoPersonsCollection->insert($values_array, $safe_insert);
         //echo $values_json;
         break;
+    case 'DELETE':
+        $values_json = file_get_contents('php://input');
+        $values_array = json_decode($values_json, true);
+        $id = substr($_SERVER["PATH_INFO"],1);
+        $mongoPersonsCollection->remove(array("_id"=>new MongoId($id)), array("justOne" => true, "safe"=>true));
+        break;
+    /*
     //Update
     case 'PUT':
         $values_json = file_get_contents('php://input');
@@ -26,9 +33,9 @@ switch ($_SERVER['REQUEST_METHOD']){
         $mongoPersons->insert($values_array, $safe_insert);
         //echo $values_json;
         break;
-    
+    */
     case 'GET':
-        $cursor = $mongoPersons->find();
+        $cursor = $mongoPersonsCollection->find();
         foreach($cursor as $k => $record){
             $aux = array();
             $aux['id'] = $k;

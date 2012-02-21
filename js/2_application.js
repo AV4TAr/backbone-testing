@@ -27,6 +27,8 @@ App.PersonRouter = Backbone.Router.extend({
     initialize: function(){
         new App.PersonFormView({ router: this });
         new App.PersonListView();
+        
+        //update the collection on init - will trigger a reset event
         App.PersonList.fetch();
     }
 });
@@ -59,6 +61,7 @@ App.PersonListRecordView = Backbone.View.extend({
     initialize: function(){
         this.template = _.template($("#personListRecord").html());
         this.render();
+        
         //when destroying a model, update the view
         App.PersonList.bind('destroy', this.remove, this);
         
@@ -71,11 +74,11 @@ App.PersonListRecordView = Backbone.View.extend({
 
     //removes the view
     remove: function(){
-        console.log($(this.el).html());
+        //ESTA BORRANDO TODOS LOS VIEWS!
+        //PORQUE???
         $(this.el).remove();
         console.log('Remove record view');
     },
-    
     
     //distroys the model
     clear: function(){
@@ -89,9 +92,7 @@ App.PersonListRecordView = Backbone.View.extend({
     },
     
     render: function(){
-        var html = this.template({
-            model: this.model.toJSON()
-            });
+        var html = this.template({ model: this.model.toJSON() });
         $(this.el).append(html);
     }
 })
@@ -99,20 +100,16 @@ App.PersonListRecordView = Backbone.View.extend({
 App.PersonListView = Backbone.View.extend({
     el: '#person-list',
     initialize: function(){
-        App.PersonList.bind('add', this.renderItem, this);
-        App.PersonList.bind('remove', this.removeItem, this);
+        App.PersonList.bind('add', this.renderOneItem, this);
+        App.PersonList.bind('reset', this.renderAllItems, this);
     },
-    renderItem: function(model){
-        
+    renderOneItem: function(model){
         $(this.el).show()
-
-        var view = new App.PersonListRecordView({
-            model : model
-        })
+        var view = new App.PersonListRecordView({ model : model })
         this.$('ul').append(view.el)
     },
     
-    removeItem: function(model){
-        console.log(model);
+    renderAllItems: function(){
+        App.PersonList.each(this.renderOneItem);
     }
 })
