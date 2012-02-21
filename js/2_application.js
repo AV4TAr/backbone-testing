@@ -7,7 +7,6 @@ App = {
 
 App.Person = Backbone.Model.extend({
     defaults: {
-        "id":'',
         "firstName": '',
         "lastName": ''
     },
@@ -41,9 +40,9 @@ App.PersonFormView = Backbone.View.extend({
     handleSubmit: function(){
         var Person = new App.Person();
         Person.set({firstName: this.$('#first_name').val(), lastName: this.$('#last_name').val() });
-        
+        Person.save();
         App.PersonList.add(Person);
-        return false;
+        this.$('input').val('');
     }
 })
 
