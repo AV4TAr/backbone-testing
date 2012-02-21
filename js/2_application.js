@@ -7,13 +7,18 @@ App = {
 
 App.Person = Backbone.Model.extend({
     defaults: {
-        "id":'',
         "firstName": '',
         "lastName": ''
+    },
+    url: function(){
+        return this.id ? '/2.persons.php/' + this.id : '/2.persons.php';
     }
 });
 App.PersonCollection = Backbone.Collection.extend({
-    model: App.Person
+    model: App.Person,
+    url: function(){
+        return '/2.persons.php';
+    }
 });
 
 App.PersonList = new App.PersonCollection();
@@ -22,6 +27,7 @@ App.PersonRouter = Backbone.Router.extend({
     initialize: function(){
         new App.PersonFormView({ router: this });
         new App.PersonListView();
+        App.PersonList.fetch();
     }
 });
 
@@ -37,11 +43,12 @@ App.PersonFormView = Backbone.View.extend({
     },
     handleSubmit: function(){
         var Person = new App.Person();
-        Person.set({firstName: this.$('#first_name').val(), 
-                    lastName: this.$('#last_name').val()
-                   });
-        Person.set({id:Person.cid});
+
+        Person.set({firstName: this.$('#first_name').val(), lastName: this.$('#last_name').val() });
+        Person.save();
         App.PersonList.add(Person);
+        this.$('input').val('');
+        this.$('#first_name').focus();  
     }
 })
 
@@ -52,19 +59,29 @@ App.PersonListRecordView = Backbone.View.extend({
     initialize: function(){
         this.template = _.template($("#personListRecord").html());
         this.render();
+        //when destroying a model, update the view
+        App.PersonList.bind('destroy', this.remove, this);
+        
     },
     
     events: {
-        'click span.remove' : 'removeRecord',
+        'click span.remove' : 'clear',
         'click span.edit'   : 'editRecord'
     },
+
+    //removes the view
+    remove: function(){
+        console.log($(this.el).html());
+        $(this.el).remove();
+        console.log('Remove record view');
+    },
     
-    removeRecord: function(){
-        $(this.el).hide();
-        /*
-        console.log($(this.el).attr('data-person-id'))
-        console.log(this.$('').)
-        console.log('Remove record');*/
+    
+    //distroys the model
+    clear: function(){
+        this.model.destroy();
+        console.log('Destroy record');
+
     },
     
     editRecord: function(){
@@ -86,6 +103,7 @@ App.PersonListView = Backbone.View.extend({
         App.PersonList.bind('remove', this.removeItem, this);
     },
     renderItem: function(model){
+        
         $(this.el).show()
 
         var view = new App.PersonListRecordView({
