@@ -40,9 +40,7 @@ App.PersonFormView = Backbone.View.extend({
     },
     handleSubmit: function(){
         var Person = new App.Person();
-        Person.set({firstName: this.$('#first_name').val(), 
-                    lastName: this.$('#last_name').val()
-                   });
+        Person.set({firstName: this.$('#first_name').val(), lastName: this.$('#last_name').val() });
         
         App.PersonList.add(Person);
         return false;
@@ -55,18 +53,29 @@ App.PersonListRecordView = Backbone.View.extend({
     
     initialize: function(){
         this.template = _.template($("#personListRecord").html());
-        App.PersonList.bind('remove', this.removeRecord, this);
         this.render();
+        //when destroying a model, update the view
+        App.PersonList.bind('destroy', this.remove, this);
+        
     },
     
     events: {
-        'click span.remove' : 'removeRecord',
+        'click span.remove' : 'clear',
         'click span.edit'   : 'editRecord'
     },
     
-    removeRecord: function(){
+    //removes the view
+    remove: function(){
+        console.log($(this.el).html());
         $(this.el).remove();
-        console.log('Remove record');
+        console.log('Remove record view');
+    },
+    
+    
+    //distroys the model
+    clear: function(){
+        this.model.destroy();
+        console.log('Destroy record');
     },
     
     editRecord: function(){
