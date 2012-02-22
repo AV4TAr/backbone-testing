@@ -63,8 +63,7 @@ App.PersonListRecordView = Backbone.View.extend({
         this.render();
         
         //when destroying a model, update the view
-        App.PersonList.bind('destroy', this.remove, this);
-        
+        this.model.bind('destroy', this.remove, this);
     },
     
     events: {
@@ -74,8 +73,6 @@ App.PersonListRecordView = Backbone.View.extend({
 
     //removes the view
     remove: function(){
-        //ESTA BORRANDO TODOS LOS VIEWS!
-        //PORQUE???
         $(this.el).remove();
         console.log('Remove record view');
     },
