@@ -4,13 +4,6 @@ App = {
         new App.PersonRouter();
         
     }
-    /*
-    displayAlert: function(message, type){
-    	mensaje = new App.Alert({text : message});
-		alerta = new App.AlertBoxView({model: mensaje});
-		alerta.render();
-    }
-    */
 };
 
 App.Person = Backbone.Model.extend({
@@ -36,28 +29,11 @@ App.PersonRouter = Backbone.Router.extend({
     initialize: function(){
         new App.PersonFormView({ router: this });
         new App.PersonListView();
-        
+        new App.AlertListView();
         //update the collection on init - will trigger a reset event
         App.PersonList.fetch();
     }
 });
-
-App.Alert = Backbone.Model.extend({
-	defaults:{ text: '' , type: 'message'}
-});
-
-
-App.AlertBoxView = Backbone.View.extend({
-	initialize: function(){
-		this.template = _.template($("#alertBox").html());
-	},
-    render: function(){
-    	var html = this.template({ model: this.model.toJSON() });
-    	console.log(html);
-        this.el = html;
-    }
-})
-
 
 
 App.PersonFormView = Backbone.View.extend({
@@ -130,10 +106,62 @@ App.PersonListView = Backbone.View.extend({
     renderOneItem: function(model){
         $(this.el).show()
         var view = new App.PersonListRecordView({ model : model })
+        //$('ul', this.el).append(view.el)
         this.$('ul').append(view.el)
     },
     
     renderAllItems: function(){
-        App.PersonList.each(this.renderOneItem);
+        App.PersonList.each(this.renderOneItem, this);
     }
+})
+
+
+//---- Alerts
+
+App.Alert = Backbone.Model.extend({
+	defaults:{ text: '' , type: 'message'}
+});
+
+App.AlertCollection = Backbone.Collection.extend({
+	model: App.Alert
+})
+
+App.AlertList = new App.AlertCollection();
+
+App.AlertView = Backbone.View.extend({
+	tagName: 'li',
+	initialize: function(){
+		this.template = _.template($("#alertBox").html());
+		this.render();
+		this.model.bind('destroy', this.remove, this);
+	},
+	events: {
+		'click .close': 'closeAlert'
+	},
+    render: function(){
+    	var html = this.template({ model: this.model.toJSON() });
+        $(this.el).append(html);
+    },
+    closeAlert: function(){
+		this.model.destroy();
+        console.log('Destroy Alert');
+    },
+    remove: function(){
+    	$(this.el).remove();
+        console.log('Remove alert view');
+    }
+})
+
+App.AlertListView = Backbone.View.extend({
+	el: '#alert-list',
+	initialize: function(){
+		App.AlertList.bind('add', this.renderOneItem, this);
+	},
+	
+	renderOneItem: function(model){
+		$(this.el).show()
+        var view = new App.AlertView({ model : model })
+        this.$('ul').append(view.el)
+        
+	}
 })

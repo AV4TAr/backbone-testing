@@ -33,8 +33,8 @@
 
 	    <script id='alertBox' type='text/html'>
 	 	   <div class="alert">
+	 	   		<a class="close" data-dismiss="alert">×</a>
 				<strong><%=model.text%></strong>
-				Best check yo self, you're not looking too good.
 			</div>
 	    </script>
 
@@ -85,7 +85,10 @@
                 </h1>
             </div>
         </section>
-
+		<section id="alert-list">
+			<ul  class="unstyled">
+			</ul>
+		</section>
 
         <section id="people-add">
             <h1>People</h1>
