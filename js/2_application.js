@@ -6,7 +6,44 @@ App = {
     }
 };
 
-App.Person = Backbone.Model.extend({
+//Extend model to have a defaultErrorHandler
+Model = Backbone.Model.extend({
+	initialize: function(attributes, options) {
+		options || (options = {});
+    	_.bindAll(this, 'defaultErrorHandler');
+    	this.bind("error", this.defaultErrorHandler);
+    	this.init && this.init(attributes, options);
+  	},
+	defaultErrorHandler: function(model, error) {
+    	var errors;
+    	if (_.isArray(error)) {
+      		//errors = error.join('<br/>');
+		    _.each(error,function(un_error){
+        		Alert = new App.Alert({text: un_error});
+	      		App.AlertList.add(Alert);
+      		});
+    	} else {
+      		// Server error; parse as needed into a displayable error.
+      		Alert = new App.Alert({text: error});
+	      		App.AlertList.add(Alert);
+		}
+	}
+});
+
+App.Person = Model.extend({
+	validate: function(attrs) {
+//		console.log(attrs)
+		var errors = []	
+    	if (_.isEmpty(attrs.firstName)) {
+    		errors.push("First Name can't be blank");
+    	}
+    	if (_.isEmpty(attrs.lastName)) {
+    		errors.push("Last Name can't be blank");
+    	}
+		if(_.size(errors) > 0) {
+			return errors
+		}
+  	},
     defaults: {
         "firstName": '',
         "lastName": ''
@@ -48,11 +85,16 @@ App.PersonFormView = Backbone.View.extend({
     },
     handleSubmit: function(){
         var Person = new App.Person();
+        Person.save({
+        	firstName: this.$('#first_name').val(), 
+        	lastName: this.$('#last_name').val()
+        },{success: function(){
+			App.PersonList.add(Person);
+	        this.$('input').val('');
+        }});
 
-        Person.set({firstName: this.$('#first_name').val(), lastName: this.$('#last_name').val() });
-        Person.save();
-        App.PersonList.add(Person);
-        this.$('input').val('');
+	   
+
         this.$('#first_name').focus();  
     }
 })
@@ -165,3 +207,4 @@ App.AlertListView = Backbone.View.extend({
         
 	}
 })
+
