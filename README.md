@@ -15,3 +15,5 @@ Usage
     alert2 = new App.Alert({text: "Another Alert"})
     App.AlertList.add(alert2)
     alert2.destroy()	
+
+
