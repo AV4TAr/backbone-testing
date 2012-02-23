@@ -31,9 +31,15 @@
             });
         </script>
 
+	    <script id='alertBox' type='text/html'>
+	 	   <div class="alert">
+				<strong><%=model.text%></strong>
+				Best check yo self, you're not looking too good.
+			</div>
+	    </script>
 
         <script id='personListRecord' type='text/html'>
-            <a href='javascript: void(0)' data-person-id="<%=model.cid%>">
+            <a href='javascript: void(0)'>
                 <%=model.firstName%> <%=model.lastName%>
             </a>
             <span class="edit"><i class="icon-edit"></i></span>
@@ -53,7 +59,7 @@
 </head>
 
 <body>
-
+	
     <div class="navbar navbar-fixed-top">
         <div class="navbar-inner">
             <div class="container">

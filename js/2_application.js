@@ -2,7 +2,15 @@ App = {
     start: function(){
         //inicializo el view para el search
         new App.PersonRouter();
-    }  
+        
+    }
+    /*
+    displayAlert: function(message, type){
+    	mensaje = new App.Alert({text : message});
+		alerta = new App.AlertBoxView({model: mensaje});
+		alerta.render();
+    }
+    */
 };
 
 App.Person = Backbone.Model.extend({
@@ -14,6 +22,7 @@ App.Person = Backbone.Model.extend({
         return this.id ? '/2.persons.php/' + this.id : '/2.persons.php';
     }
 });
+
 App.PersonCollection = Backbone.Collection.extend({
     model: App.Person,
     url: function(){
@@ -32,6 +41,24 @@ App.PersonRouter = Backbone.Router.extend({
         App.PersonList.fetch();
     }
 });
+
+App.Alert = Backbone.Model.extend({
+	defaults:{ text: '' , type: 'message'}
+});
+
+
+App.AlertBoxView = Backbone.View.extend({
+	initialize: function(){
+		this.template = _.template($("#alertBox").html());
+	},
+    render: function(){
+    	var html = this.template({ model: this.model.toJSON() });
+    	console.log(html);
+        this.el = html;
+    }
+})
+
+
 
 App.PersonFormView = Backbone.View.extend({
     el: '#formPersona',
